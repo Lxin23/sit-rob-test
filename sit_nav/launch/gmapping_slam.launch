@@ -1,0 +1,63 @@
+<launch>
+    <!-- 发布laser->base_link的坐标系变换 -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="laser_tf_publisher" 
+            args="0.19 0 0 0 0 0 base_link laser"/>
+    <!-- base_link->odom的坐标变换由里程计节点发布 -->
+
+
+    <!-- 使用模拟器时间，实体机器人使用 false -->
+    <param name="use_sim_time" value="true" />
+
+    <!-- gmapping的slam建图节点 -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <!-- 激光雷达话题重映射,它接收scan话题 -->
+        <remap from="scan" to="scan" />
+
+        <!-- 机器人的底盘坐标系 -->
+        <param name="base_frame" value="base_footprint" />
+
+        <!-- 机器人的里程计坐标系 -->
+        <param name="odom_frame" value="odom" />
+
+        <!-- 地图的更新频率 -->
+        <param name="map_update_interval" value="5.0" />
+
+        <!-- 激光雷达最大探测距离 -->
+        <param name="maxUrange" value="25.0" />
+
+
+        <param name="sigma" value="0.05" />
+        <param name="kernelSize" value="1" />
+        <param name="lstep" value="0.05" />
+        <param name="astep" value="0.05" />
+        <param name="iterations" value="5" />
+        <param name="lsigma" value="0.075" />
+        <param name="ogain" value="3.0" />
+        <param name="lskip" value="0" />
+        <param name="srr" value="0.1" />
+        <param name="srt" value="0.2" />
+        <param name="str" value="0.1" />
+        <param name="stt" value="0.2" />
+        <param name="linearUpdate" value="1.0" />
+        <param name="angularUpdate" value="0.5" />
+        <param name="temporalUpdate" value="3.0" />
+        <param name="resampleThreshold" value="0.5" />
+        <param name="particles" value="30" />
+        <param name="xmin" value="-50.0" />
+        <param name="ymin" value="-50.0" />
+        <param name="xmax" value="50.0" />
+        <param name="ymax" value="50.0" />
+        <param name="delta" value="0.05" />
+        <param name="llsamplerange" value="0.01" />
+        <param name="llsamplestep" value="0.01" />
+        <param name="lasamplerange" value="0.005" />
+        <param name="lasamplestep" value="0.005" />
+    </node>
+
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find sit_nav)/rviz/gmapping.rviz"/>
+    <!-- 可以保存 rviz 配置并后期直接使用-->
+    <!--
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find my_nav_sum)/rviz/gmapping.rviz"/>
+    -->
+</launch>

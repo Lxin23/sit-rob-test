@@ -1,0 +1,25 @@
+<launch>
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+        <!-- <remap from="/cmd_vel" to="/raw_cmd_vel"/> -->
+
+        <param name="controller_frequency" value="2.0" />
+        <param name="recovery_behavior_enabled" value="false"/>
+        <param name="clearing_rotation_allowed" value="false"/>
+
+        <!-- 通用代价地图参数 -->
+        <rosparam file="$(find sit_nav)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find sit_nav)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <!-- 本地代价地图参数 -->
+        <rosparam file="$(find sit_nav)/param/local_costmap_params.yaml" command="load" />
+
+        <!-- 全局代价地图参数 -->
+        <rosparam file="$(find sit_nav)/param/global_costmap_params.yaml" command="load" />
+
+        <!-- 底盘运动规划相关参数 -->
+        <rosparam file="$(find sit_nav)/param/base_local_planner_params.yaml" command="load" />
+
+        <!-- <rosparam file="$(find robot_nav)/param/dwa_local_planner_params.yaml" command="load" /> -->
+    </node>
+
+</launch>

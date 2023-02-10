@@ -1,0 +1,32 @@
+<launch>
+
+
+    <arg name="nodelet_manager_name" value="nodelet_manager"/>
+
+    <!-- nodelet manager -->
+    <node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager_name)" args="manager" />
+
+    <!-- velocity smoother -->
+    <include file="$(find yocs_velocity_smoother)/launch/velocity_smoother.launch">
+        <!-- 节点名称 -->
+        <arg name="node_name" value="velocity_smoother" />
+
+        <!-- nodelet管理器名 -->
+        <arg name="nodelet_manager_name" value="$(arg nodelet_manager_name)" />
+
+        <!-- 配置文件路径 -->
+        <arg name="config_file" value="$(find robot_nav)/param/yocs_velocity_smoother.yaml" />
+
+        <!-- 接收的原始速度话题名 -->
+        <arg name="raw_cmd_vel_topic" value="/raw_cmd_vel" />
+
+        <!-- 平滑的速度话题名 -->
+        <arg name="smooth_cmd_vel_topic" value="/cmd_vel" />
+
+        <!-- 机器人实际速度的话题名 -->
+        <arg name="robot_cmd_vel_topic" value="/real_speed_no_stamp" />
+
+        <!-- 里程计话题 -->
+        <arg name="odom_topic" value="/odom" />
+    </include>
+</launch>

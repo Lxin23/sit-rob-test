@@ -1,0 +1,5 @@
+<launch>
+    <!-- 运行rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find sit_nav)/rviz/nav.rviz" />
+
+</launch>

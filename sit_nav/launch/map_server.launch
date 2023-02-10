@@ -1,0 +1,11 @@
+<launch>
+<!--    加载地图-->
+    <arg name="map" default="nav11.yaml"/>
+
+<!--    加载地图-->
+    <node pkg="map_server"
+          type="map_server"
+          name="map_server"
+          output="screen"
+          args="$(find sit_nav)/map/$(arg map)"/>
+</launch>

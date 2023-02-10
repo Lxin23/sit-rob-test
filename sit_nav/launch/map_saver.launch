@@ -1,0 +1,12 @@
+<launch>
+
+<!--    保存地图的文件名-->
+    <arg name="filename" value="$(find robot_nav)/map/nav11"/>
+
+<!--    保存地图数据-->
+    <node pkg="map_server"
+          type="map_saver"
+          name="map_server"
+          output="screen"
+          args="-f $(arg filename)"/>
+</launch>
