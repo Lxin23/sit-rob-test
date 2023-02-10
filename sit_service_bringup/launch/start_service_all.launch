@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 启动串口协议 -->
+    <node pkg="sit_protocol" type="protocol_forwarder_node" name="protocol_forwarder" output="screen" respawn="true">
+        <!-- 串口自发现，无须设置串口号与波特率 -->
+    </node>
+    <!-- 启动底盘节点 -->
+    <node pkg="sit_chassis" type="three_chassis_node" name="chassis_node" output="screen" respawn="true">
+        <!-- 运动系数 -->
+        <param name="k" value="6982.026592" />
+        <!-- 底盘旋转半径 -->
+        <param name="radius" value="0.1900" />
+    </node>
+    <!-- 启动IMU节点 -->
+    <node name="chassis_imu" pkg="sit_chassis_imu" type="chassis_imu_node" output="screen" respawn="true" />
+
+    <!-- 启动里程计节点 -->
+    <node pkg="sit_odom" type="odom_node" name="odom_node"></node>
+
+    <!-- 启动激光雷达节点 -->
+    <node name="laser" pkg="urg_node" type="urg_node" output="screen"/>
+    
+
+    <!-- 启动深度相机 -->
+    <!-- <include file="$(find realsense2_camera)/launch/rs_rgbd.launch"></include> -->
+    
+    <!-- 启动导航节点 -->
+
+</launch>
