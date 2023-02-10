@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="model" 
+         default="$(find xacro)/xacro --inorder '$(find sit_service_description)/xacro/service_description.xacro'" />
+    <!-- 在参数服务器载入urdf文件 -->
+    <param 
+        name="robot_description" 
+        command="$(arg model)"/>
+    <!-- 启动rviz -->
+    <node 
+        name="rviz" 
+        pkg="rviz" 
+        type="rviz" 
+        args="-d $(find sit_service_description)/config/service_robot_viz.rviz"
+        output="screen"/>
+    <!-- 关节状态发布节点 -->
+    <node 
+        name="joint_state_publisher" 
+        pkg="joint_state_publisher" 
+        type="joint_state_publisher" 
+        output="screen"/>
+    <!-- 机器人状态发布节点 -->
+    <node 
+        name="robot_state_publisher" 
+        pkg="robot_state_publisher" 
+        type="robot_state_publisher" 
+        output="screen"/>
+    <node pkg="arbotix_python" 
+          name="arbotix_driver" 
+          type="arbotix_driver"  
+          output="screen">
+        <rosparam command="load" file="$(find sit_service_description)/config/control.yaml"/>
+        <param name="sim" value="true"/>
+        
+    </node>
+</launch>

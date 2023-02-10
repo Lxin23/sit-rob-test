@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="model_xacro" 
+         default="$(find xacro)/xacro --inorder '$(find sit_service_description)/xacro/service_description.xacro'" />
+
+    <arg name="model_python"
+          default="python3 $(find sit_service_description)/scripts/main.py"/>
+    
+
+    <!-- 在参数服务器载入urdf文件 -->
+    <param 
+        name="robot_description" 
+        command="$(arg model_python)"/>
+    <!-- 启动rviz -->
+    <node 
+        name="rviz" 
+        pkg="rviz" 
+        type="rviz" 
+        args="-d $(find sit_service_description)/config/service_robot_viz.rviz"
+        output="screen"/>
+    <!-- 关节状态发布节点 -->
+    <node 
+        name="joint_state_publisher" 
+        pkg="joint_state_publisher" 
+        type="joint_state_publisher" 
+        output="screen"/>
+    <!-- 机器人状态发布节点 -->
+    <node 
+        name="robot_state_publisher" 
+        pkg="robot_state_publisher" 
+        type="robot_state_publisher" 
+        output="screen"/>
+    <!-- 控制机器人关节运动的节点 -->
+    <node 
+        name="joint_state_publisher_gui" 
+        pkg="joint_state_publisher_gui" 
+        type="joint_state_publisher_gui" 
+        output="screen"/>
+</launch>
